@@ -2,7 +2,6 @@ package com.pet_pr.SpringPet.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pet_pr.SpringPet.dto.CardInfo;
-import com.pet_pr.SpringPet.repository.CardInfoRepository;
 import com.pet_pr.SpringPet.service.BinApiService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +30,6 @@ public class BinApiControllerTest {
     @MockBean
     private BinApiService binApiService;
 
-    @MockBean
-    private CardInfoRepository cardInfoRepository;
-
     @Test
     public void calculateTest() throws Exception {
 
@@ -48,7 +44,7 @@ public class BinApiControllerTest {
 
     @Test
     public void getCardInfoByIdTest() throws Exception {
-        Long id = 1L;
+        String id = "1";
 
         given(binApiService.getCardInfoByIdFromDb(id)).willReturn(generateCardInfo());
 

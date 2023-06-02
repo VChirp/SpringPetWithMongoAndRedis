@@ -19,7 +19,7 @@ public class StubGenerator {
 
     public static CardInfo generateCardInfo() {
         CardInfo cardInfo = new CardInfo();
-        cardInfo.setId(1L);
+        cardInfo.setId("1");
         cardInfo.setBin(TEST_BIN);
 
         return cardInfo;
@@ -27,16 +27,16 @@ public class StubGenerator {
 
     public static List<CardInfo> generateListOfCardInfos() {
         Country country = new Country();
-        country.setId(1L);
+        country.setId("1");
         country.setName(UNITED_STATES_OF_AMERICA);
 
         CardInfo cardInfoOne = new CardInfo();
-        cardInfoOne.setId(1L);
+        cardInfoOne.setId("1");
         cardInfoOne.setBin(TEST_BINS.get(0));
         cardInfoOne.setCountry(country);
 
         CardInfo cardInfoTwo = new CardInfo();
-        cardInfoTwo.setId(2L);
+        cardInfoTwo.setId("2");
         cardInfoTwo.setBin(TEST_BINS.get(1));
         cardInfoTwo.setCountry(country);
 

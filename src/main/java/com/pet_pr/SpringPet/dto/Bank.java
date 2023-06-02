@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Data;
-
-import javax.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -14,17 +14,13 @@ import javax.persistence.*;
         "phone",
         "city"
 })
-@Entity
-@Table(name = "BANK")
+@Document("bank")
 @Data
 public class Bank {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private String id;
 
     @JsonProperty("name")
-    @Column(unique = true)
     private String name;
 
     @JsonProperty("url")

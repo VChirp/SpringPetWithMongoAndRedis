@@ -3,11 +3,9 @@ package com.pet_pr.SpringPet.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -20,21 +18,17 @@ import javax.persistence.*;
         "country",
         "bank"
 })
-@Entity
-@Table(name = "CARD_INFO")
+@Document("card_info")
 @Data
 public class CardInfo {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private String id;
 
     @JsonProperty("bin")
     private String bin;
 
     @JsonProperty("number")
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "number_id")
     private NumberValues numberValues;
 
     @JsonProperty("scheme")
@@ -50,12 +44,8 @@ public class CardInfo {
     private Boolean prepaid;
 
     @JsonProperty("country")
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "country_id")
     private Country country;
 
     @JsonProperty("bank")
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "bank_id")
     private Bank bank;
 }

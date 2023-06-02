@@ -4,27 +4,25 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Data;
-
-import javax.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "length",
         "luhn"
 })
-@Entity
-@Table(name = "NUMBER_VALUES")
+@Document("number_values")
 @Data
 public class NumberValues {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private String id;
 
     @JsonProperty("length")
     private Integer length;
 
     @JsonProperty("luhn")
-    @Basic
+//    @Basic
     private Boolean luhn;
 }

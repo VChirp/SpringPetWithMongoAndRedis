@@ -27,7 +27,7 @@ public class BinApiController {
     }
 
     @GetMapping("/cardInfo/{id}")
-    public ResponseEntity<CardInfo> getCardInfoById(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<CardInfo> getCardInfoById(@PathVariable(value = "id") String id) {
         CardInfo cardInfoById = binApiService.getCardInfoByIdFromDb(id);
 
         return ResponseEntity.ok(cardInfoById);

@@ -2,7 +2,9 @@ package com.pet_pr.SpringPet.service;
 
 import com.pet_pr.SpringPet.dto.CardInfo;
 import com.pet_pr.SpringPet.exception.BusinessException;
-import com.pet_pr.SpringPet.repository.CardInfoRepository;
+import com.pet_pr.SpringPet.repository.BankMongoRepository;
+import com.pet_pr.SpringPet.repository.CardInfoMongoRepository;
+import com.pet_pr.SpringPet.repository.CountryMongoRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,21 +18,26 @@ import java.util.Optional;
 
 import static com.pet_pr.SpringPet.StubGenerator.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class BinApiServiceTest {
 
     public static final String BANK_OF_AMERICA_N_A = "BANK OF AMERICA, N.A.";
 
-    @Autowired
-    BinApiService binApiService;
+    @MockBean
+    private CardInfoMongoRepository cardInfoRepository;
 
     @MockBean
-    private CardInfoRepository cardInfoRepository;
+    private BankMongoRepository bankMongoRepository;
+
+    @MockBean
+    private CountryMongoRepository countryMongoRepository;
+
+    @Autowired
+    private BinApiService binApiService;
 
     @Test
     public void getCardInfoByBinTest() throws BusinessException {
@@ -75,7 +82,7 @@ public class BinApiServiceTest {
 
     @Test
     public void getCardInfoByIdFromDb() {
-        Long id = 1L;
+        String id = "1";
 
         given(cardInfoRepository.findById(id)).willReturn(Optional.of(generateCardInfo()));
 
@@ -90,7 +97,7 @@ public class BinApiServiceTest {
 
         Page<CardInfo> cardInfoExpectedPage = new PageImpl<>(generateListOfCardInfos());
 
-        given(cardInfoRepository.findAll(any())).willReturn(cardInfoExpectedPage);
+        given(cardInfoRepository.findAll(Pageable.ofSize(10))).willReturn(cardInfoExpectedPage);
 
         Page<CardInfo> cardInfoActualPage = binApiService.getAllCardInfoFromDb();
 

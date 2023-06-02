@@ -4,10 +4,14 @@ import com.pet_pr.SpringPet.dto.Bank;
 import com.pet_pr.SpringPet.dto.CardInfo;
 import com.pet_pr.SpringPet.dto.Country;
 import com.pet_pr.SpringPet.exception.BusinessException;
-import com.pet_pr.SpringPet.repository.BankRepository;
-import com.pet_pr.SpringPet.repository.CardInfoRepository;
-import com.pet_pr.SpringPet.repository.CountryRepository;
+import com.pet_pr.SpringPet.repository.BankMongoRepository;
+import com.pet_pr.SpringPet.repository.CardInfoMongoRepository;
+import com.pet_pr.SpringPet.repository.CountryMongoRepository;
 import com.pet_pr.SpringPet.utils.BinUtils;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,23 +24,28 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
+@NoArgsConstructor
+@Slf4j
 public class BinApiService {
 
     public static final String HTTPS_LOOKUP_BINLIST_NET = "https://lookup.binlist.net/%s";
 
-    private final RestTemplate restTemplate;
+    private RestTemplate restTemplate;
 
-    private final CardInfoRepository cardInfoRepository;
+    private CardInfoMongoRepository cardInfoRepository;
 
-    private final BankRepository bankRepository;
+    private BankMongoRepository bankRepository;
 
-    private final CountryRepository countryRepository;
+    private CountryMongoRepository countryRepository;
 
     public static final Pageable PAGEABLE = PageRequest.of(0, 10);
 
+    @Autowired
     public BinApiService(RestTemplateBuilder restTemplateBuilder,
-                         CardInfoRepository cardInfoRepository,
-                         BankRepository bankRepository, CountryRepository countryRepository) {
+                         CardInfoMongoRepository cardInfoRepository,
+                         BankMongoRepository bankRepository,
+                         CountryMongoRepository countryRepository) {
         this.restTemplate = restTemplateBuilder.build();
         this.cardInfoRepository = cardInfoRepository;
         this.bankRepository = bankRepository;
@@ -89,7 +98,7 @@ public class BinApiService {
         return cardInfo;
     }
 
-    public CardInfo getCardInfoByIdFromDb(Long id) {
+    public CardInfo getCardInfoByIdFromDb(String id) {
         Optional<CardInfo> byId = cardInfoRepository.findById(id);
 
         return byId.orElse(null);

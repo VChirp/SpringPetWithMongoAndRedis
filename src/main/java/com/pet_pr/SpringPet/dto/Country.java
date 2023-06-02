@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Data;
-
-import javax.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -17,14 +17,11 @@ import javax.persistence.*;
         "latitude",
         "longitude"
 })
-@Entity
-@Table(name = "COUNTRY")
+@Document("country")
 @Data
 public class Country {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
+    private String id;
 
     @JsonProperty("numeric")
     private String numeric;
@@ -33,7 +30,6 @@ public class Country {
     private String alpha2;
 
     @JsonProperty("name")
-    @Column(unique = true)
     private String name;
 
     @JsonProperty("emoji")
