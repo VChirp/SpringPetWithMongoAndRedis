@@ -1,8 +1,9 @@
 package com.pet_pr.SpringPet.service;
 
-import com.pet_pr.SpringPet.dto.CardInfo;
+import com.pet_pr.SpringPet.entity.mongo.CardInfo;
 import com.pet_pr.SpringPet.exception.BusinessException;
 import com.pet_pr.SpringPet.repository.BankMongoRepository;
+import com.pet_pr.SpringPet.repository.BinCacheRepository;
 import com.pet_pr.SpringPet.repository.CardInfoMongoRepository;
 import com.pet_pr.SpringPet.repository.CountryMongoRepository;
 import org.junit.jupiter.api.Test;
@@ -35,6 +36,9 @@ public class BinApiServiceTest {
 
     @MockBean
     private CountryMongoRepository countryMongoRepository;
+
+    @MockBean
+    private BinCacheRepository binCacheRepository;
 
     @Autowired
     private BinApiService binApiService;

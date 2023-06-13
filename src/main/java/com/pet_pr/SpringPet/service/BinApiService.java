@@ -1,10 +1,12 @@
 package com.pet_pr.SpringPet.service;
 
-import com.pet_pr.SpringPet.dto.Bank;
-import com.pet_pr.SpringPet.dto.CardInfo;
-import com.pet_pr.SpringPet.dto.Country;
+import com.pet_pr.SpringPet.entity.mongo.Bank;
+import com.pet_pr.SpringPet.entity.mongo.CardInfo;
+import com.pet_pr.SpringPet.entity.mongo.Country;
+import com.pet_pr.SpringPet.entity.redis.BinCache;
 import com.pet_pr.SpringPet.exception.BusinessException;
 import com.pet_pr.SpringPet.repository.BankMongoRepository;
+import com.pet_pr.SpringPet.repository.BinCacheRepository;
 import com.pet_pr.SpringPet.repository.CardInfoMongoRepository;
 import com.pet_pr.SpringPet.repository.CountryMongoRepository;
 import com.pet_pr.SpringPet.utils.BinUtils;
@@ -13,6 +15,7 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -39,19 +42,24 @@ public class BinApiService {
 
     private CountryMongoRepository countryRepository;
 
+    private BinCacheRepository binCacheRepository;
+
     public static final Pageable PAGEABLE = PageRequest.of(0, 10);
 
     @Autowired
     public BinApiService(RestTemplateBuilder restTemplateBuilder,
                          CardInfoMongoRepository cardInfoRepository,
                          BankMongoRepository bankRepository,
-                         CountryMongoRepository countryRepository) {
+                         CountryMongoRepository countryRepository,
+                         BinCacheRepository binCacheRepository) {
         this.restTemplate = restTemplateBuilder.build();
         this.cardInfoRepository = cardInfoRepository;
         this.bankRepository = bankRepository;
         this.countryRepository = countryRepository;
+        this.binCacheRepository = binCacheRepository;
     }
 
+    @Cacheable(value = "binCache")
     public CardInfo getCardInfoByBin(String bin) throws BusinessException {
 
         if (!BinUtils.checkBinFormat(bin)) {
@@ -60,11 +68,17 @@ public class BinApiService {
 
         String url = String.format(HTTPS_LOOKUP_BINLIST_NET, bin);
 
-        CardInfo cardInfo = this.restTemplate.getForObject(url, CardInfo.class);
+        var cardInfo = this.restTemplate.getForObject(url, CardInfo.class);
 
         if (cardInfo != null) {
             cardInfo.setBin(bin);
             cardInfoRepository.save(checkUniqueFields(cardInfo));
+
+            var binCache = new BinCache();
+            binCache.setCardInfo(cardInfo);
+            binCache.setBin(cardInfo.getBin());
+            binCacheRepository.save(binCache);
+
         }
 
         return cardInfo;

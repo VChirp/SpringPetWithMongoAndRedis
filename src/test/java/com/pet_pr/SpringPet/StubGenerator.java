@@ -1,7 +1,7 @@
 package com.pet_pr.SpringPet;
 
-import com.pet_pr.SpringPet.dto.CardInfo;
-import com.pet_pr.SpringPet.dto.Country;
+import com.pet_pr.SpringPet.entity.mongo.CardInfo;
+import com.pet_pr.SpringPet.entity.mongo.Country;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.pet_pr.SpringPet.controller;
 
-import com.pet_pr.SpringPet.dto.CardInfo;
+import com.pet_pr.SpringPet.entity.mongo.CardInfo;
 import com.pet_pr.SpringPet.exception.BusinessException;
 import com.pet_pr.SpringPet.service.BinApiService;
 import org.springframework.data.domain.Page;

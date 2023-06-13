@@ -1,6 +1,6 @@
 package com.pet_pr.SpringPet.repository;
 
-import com.pet_pr.SpringPet.dto.CardInfo;
+import com.pet_pr.SpringPet.entity.mongo.CardInfo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;

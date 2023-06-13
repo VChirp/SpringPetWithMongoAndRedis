@@ -1,7 +1,7 @@
 package com.pet_pr.SpringPet.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pet_pr.SpringPet.dto.CardInfo;
+import com.pet_pr.SpringPet.entity.mongo.CardInfo;
 import com.pet_pr.SpringPet.service.BinApiService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

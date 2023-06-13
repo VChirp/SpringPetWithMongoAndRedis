@@ -1,4 +1,4 @@
-package com.pet_pr.SpringPet.dto;
+package com.pet_pr.SpringPet.entity.mongo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -7,22 +7,30 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.io.Serializable;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "length",
-        "luhn"
+        "name",
+        "url",
+        "phone",
+        "city"
 })
-@Document("number_values")
+@Document("bank")
 @Data
-public class NumberValues {
-
+public class Bank implements Serializable {
     @Id
     private String id;
 
-    @JsonProperty("length")
-    private Integer length;
+    @JsonProperty("name")
+    private String name;
 
-    @JsonProperty("luhn")
-//    @Basic
-    private Boolean luhn;
+    @JsonProperty("url")
+    private String url;
+
+    @JsonProperty("phone")
+    private String phone;
+
+    @JsonProperty("city")
+    private String city;
 }
